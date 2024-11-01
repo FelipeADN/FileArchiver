@@ -1,0 +1,39 @@
+Autoria: Felipe Augusto Dittert Noleto - GRR20205689
+
+
+Arquivos contidos no diretorio:
+
+    main.c: Controla o fluxo do programa e das opções.
+
+    controle.c: Contem as principais funções de cada funcionalidade(opção)
+
+    arquivo.c:  Arquivos que controlam a parte dos dados do archive(vpp) e que são genericas 
+                (controle.c tambem controlam essa parte, mas elas sao especificas de cada opção)
+
+    gerais.c: Funções que são mais genericas, ou utilizadas com muita frequencia
+
+    listaConteudos.c: Funções que auxiliam em manipular a estrutura de dados (vetor de structs com dados de cada membro)
+
+
+Descrição:  A Estrutura de dados que é a base de funcionamento do programa é um vetor de structs, cada struct contem todas as informações
+            importantes de cada membro (infosImp).
+
+            Formatação: Os primeiros bytes do programa guardam o endereço da estrutura de dados (lista de conteudos)
+                        Em seguida, os valores são equivalentes aos dados dos membros em si
+                        No final do arquivo esta a Lista de Conteudos
+                    
+            Manipulação da estrutura de dados: Para cada opção(funcionalidade) a Lista de Conteudos inteira é lida para a infosImp
+            e a partir da infosImp manipulamos os dados dos membros.
+                Comunmente a infosImp é dividia entre a sua parte antiga(gravada anteriormente) e nova(passada em argv), a divisao
+                entre as duas partes é feita apenas por aritmética, utilizando bastente (argc-3) onde, a partir desse indice, estão
+                representados os membros novos, e antes dele os antigos.
+
+            Algumas alterações antes da versão final: Originalmente eu guardava a data de modifição como uma string, mas quando fui
+                implementar a função (-a), para comparar as datas, decidi mudar a struct para guardar um time_t, e apenas mostrar a
+                string representando a data na hora de imprimir.
+            
+            Bugs encontrados: Encontrei diversos bugs, alguns causados por erros de digitação, outros ocorreram ao utilizar endereços incorretos
+                principalmente na movimentação, atualizando todos os offsets e informações de todos os membros. Muitas vezes não considerei
+                algumas coisas que aconteciam com as movimentações, remoções e inserções, tendo que debugar até encontrar o porque de algo não
+                estar acontecendo como o esperado.
+
