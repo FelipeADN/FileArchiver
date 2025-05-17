@@ -16,7 +16,7 @@ Options:
 * -m target: moves the command line "member" to exactly after the "target" file inside the "archive".
 * -x: extracts the members from the archive, if no members are specified, all are extracted.
 * -r: removes the specified members from the archive.
-* -c: lists the contents of the archive in order, including the member's information (name, UID, permissions, size and modification date).
+* -c: lists the contents of the archive in order, including the member's information (name, UID, GID, permissions, size and modification date) in the same format as tar -tvf.
 * -h: prints a message with the available options.
 
 ### Structure
