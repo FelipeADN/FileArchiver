@@ -5,6 +5,7 @@
 struct informacoes{
     char nome[255];
     long UID;
+    long GID;
     int permissao;
     int tamanho;
     time_t modificacao;

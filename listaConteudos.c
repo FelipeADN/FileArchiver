@@ -3,19 +3,55 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
+#include <pwd.h>
+#include <grp.h>
 #include "listaConteudos.h"
 #include "arquivo.h"
 
-//imprime dados dos membros
 void imprimirLista(infoMembro *infosImp, int quantidade){
     for (int i = 0; i < quantidade; i++){
         printf("\n");
-        char modificacao[25];
-        snprintf(modificacao, 25, "%s", ctime(&infosImp[i].modificacao));
-        modificacao[24] = '\0';
+        char modificacao[20];
+        struct tm *tm_info;
+        tm_info = localtime(&infosImp[i].modificacao);
+        strftime(modificacao, sizeof(modificacao), "%Y-%m-%d %H:%M", tm_info);
 
-        printf("%o  %ld  %7d  %s  %20s", infosImp[i].permissao, infosImp[i].UID, infosImp[i].tamanho, modificacao, infosImp[i].nome);
+        printf("%s %s/%s %7d %s %s", convertePermissoes(infosImp[i].permissao), converteUID(infosImp[i].UID), converteGID(infosImp[i].GID), infosImp[i].tamanho, modificacao, infosImp[i].nome);
     }
+}
+
+char* converteUID(long UID){
+    struct passwd *pw = getpwuid(UID);
+    if (pw != NULL) {
+        return strdup(pw->pw_name); // Retorna o nome do usuário
+    } else {
+        return strdup("unknown");
+    }
+}
+
+char* converteGID(long GID){
+    struct group *gr = getgrgid(GID);
+    if (gr) {
+        return strdup(gr->gr_name); // Retorna o nome do grupo
+    } else {
+        return strdup("unknown");
+    }
+}
+
+char* convertePermissoes(unsigned short permNum) {
+    char permStr[11] = "-rwxrwxrwx";
+    
+    // Passa por cada bit 
+    for (int i = 0; i < 9; i++) {
+        // bitwise AND da permissao com a mascara
+        if (!(permNum & (1 << (8 - i)))) {
+            permStr[i + 1] = '-'; //se for 0, subistitui por '-'
+        }
+    }
+
+    permStr[10] = '\0';
+    return strdup(permStr); // Retorna uma cópia da string
 }
 
 long localListaConteudo(FILE *arquivo){
@@ -71,6 +107,7 @@ void atualizaListaConteudo(FILE *arquivo, infoMembro *infosImp, long offsetLista
 
                     //popula as structs com os dados importantes
                     infosImp[y].UID = info[i-3].st_uid;
+                    infosImp[y].GID = info[i-3].st_gid;
                     infosImp[y].permissao = (info[i-3].st_mode & 0x1FF);
                     infosImp[y].modificacao = info[i-3].st_mtime;
 
@@ -141,6 +178,7 @@ int membrosNovos(infoMembro *infosImp, struct stat *info, int argc, char *argv[]
             memset(infosImp[i].nome, 0, 255);
             strcpy(infosImp[i].nome, argv[y+3]);
             infosImp[i].UID = info[y].st_uid;
+            infosImp[i].GID = info[y].st_gid;
             infosImp[i].permissao = (info[y].st_mode & 0x1FF);
             infosImp[i].tamanho = info[y].st_size;
             infosImp[i].modificacao = info[y].st_mtime;

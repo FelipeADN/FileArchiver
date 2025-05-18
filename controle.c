@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 #include "controle.h"
 #include "arquivo.h"
 #include "gerais.h"
@@ -153,6 +154,7 @@ void insereListaConteudo(FILE *arquivo, infoMembro *infosImp, long offsetLista, 
 
                 //popula as structs com os dados importantes
                 infosImp[y].UID = info[i-3].st_uid;
+                infosImp[y].GID = info[i-3].st_gid;
                 infosImp[y].permissao = (info[i-3].st_mode & 0x1FF);
                 infosImp[y].modificacao = info[i-3].st_mtime;
 

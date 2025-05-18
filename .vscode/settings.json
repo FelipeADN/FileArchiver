@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stat.h": "c",
+        "controle.h": "c",
+        "arquivo.h": "c",
+        "listaconteudos.h": "c"
+    }
+}

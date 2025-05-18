@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 #include "arquivo.h"
 #include "controle.h"
 #include "listaConteudos.h"

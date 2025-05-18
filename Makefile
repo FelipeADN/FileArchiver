@@ -1,6 +1,6 @@
-CFLAGS = -std=c99 -g -Wall #flags para compilacao
+CFLAGS = -g -Wall #flags para compilacao
 objects = arquivo.o controle.o  gerais.o listaConteudos.o main.o
-LDLIBS = -lm -g #libs de ligacao
+LDLIBS = -lm #libs de ligacao
 CC = gcc
 
 all: vina++

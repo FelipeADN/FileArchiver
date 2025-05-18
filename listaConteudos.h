@@ -29,4 +29,13 @@ long localListaConteudo(FILE *arquivo);
 //imprime dados dos membros
 void imprimirLista(infoMembro *infosImp, int quantidade);
 
+//converte UID para nome do usuario
+char* converteUID(long UID);
+
+//converte GID para nome do grupo
+char* converteGID(long GID);
+
+//converte numero de permissoes para string no formato (rwxrwxrwx)
+char* convertePermissoes(unsigned short permNum);
+
 #endif
