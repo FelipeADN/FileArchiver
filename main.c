@@ -104,7 +104,3 @@ int main(int argc, char *argv[]){
     }
     fclose(arquivo);
 }
-
-//restringir uso incorreto dos comandos (argc etc)
-//lembrar dos fclose
-//guardar caminho ao inves de nome

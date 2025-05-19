@@ -196,9 +196,12 @@ void insereListaConteudo(FILE *arquivo, infoMembro *infosImp, long offsetLista, 
 void extrairMembros(FILE *arquivo, infoMembro *infosImp, int argc, char *argv[], int quantidade, int *repeticao){
     char buffer[1024];
 
+    int remover[quantidade-(argc-3)];
+    memset(remover, 0, (quantidade-(argc-3))*sizeof(int)); //inicia vetor zerado
+
     if (argc == 3){//nenhum membro foi indicado, entao extrai todos
         for (int i = 0; i < quantidade-(argc-3); i++){
-            repeticao[i] = 1; //marca todo para extracao
+            remover[i] = 1; //marca todos para extracao
         }
     }
     else{//procura quem deve ser extraido e marca
@@ -207,7 +210,7 @@ void extrairMembros(FILE *arquivo, infoMembro *infosImp, int argc, char *argv[],
             for(int y = 0; y < quantidade-(argc-3); y++){ //membros antigos
                 if (strcmp(argv[i], infosImp[y].nome) == 0){
                     achou = 1;
-                    repeticao[y] = 1; //vai ser extraido
+                    remover[y] = 1; //vai ser extraido
                 }
             }
             if (achou == 0){
@@ -215,9 +218,9 @@ void extrairMembros(FILE *arquivo, infoMembro *infosImp, int argc, char *argv[],
             }
         }
     }
-    
-    for (int i = 0; i < quantidade-(argc-3); i++){
-        if (repeticao[i] != 0){ //so extrai os marcados
+
+    for (int i = 0; i < quantidade-(argc-3); i++){ //membros antigos
+        if (remover[i] != 0){ //so extrai os marcados
             FILE *membro = abrirMembroW(infosImp[i].nome);
             int completude = infosImp[i].tamanho;
             int lido = 0;
